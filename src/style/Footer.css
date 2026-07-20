@@ -1,0 +1,472 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.footer {
+  --black: #0b0908;
+  --black-soft: #171210;
+  --white: #f5f1ea;
+  --white-dim: #c9bfb2;
+  --red: #c1272d;
+  --red-bright: #e6483f;
+  --brown: #6b4226;
+  --brown-soft: #8b5e3c;
+  --line: rgba(245, 241, 234, 0.14);
+
+  --font-display: 'Archivo Black', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  position: relative;
+  background: var(--black);
+  font-family: var(--font-serif);
+  padding: clamp(3.5rem, 8vw, 5.5rem) clamp(1.5rem, 6vw, 5rem) clamp(1.75rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--line);
+}
+
+.footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------
+   Reveal-on-scroll
+--------------------------------------------- */
+.footer__reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: var(--d, 0ms);
+}
+
+.footer.is-in .footer__reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------
+   Top row: eyebrow + email CTA
+--------------------------------------------- */
+.footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.footer__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--brown-soft);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.footer__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red-bright);
+  box-shadow: 0 0 0 3px rgba(230, 72, 63, 0.18);
+  flex-shrink: 0;
+}
+
+.footer__cta {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.25rem;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.footer__cta:hover,
+.footer__cta:focus-visible {
+  color: var(--red-bright);
+  border-color: var(--red-bright);
+  outline: none;
+}
+
+/* ---------------------------------------------
+   Giant wordmark
+--------------------------------------------- */
+.footer__wordmark {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 14vw, 10rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--white);
+  text-decoration: none;
+  text-align: center;
+  padding: clamp(1.5rem, 6vw, 3rem) 0;
+  transition: -webkit-text-stroke 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.footer__wordmark:hover,
+.footer__wordmark:focus-visible {
+  color: var(--red-bright);
+  -webkit-text-stroke: 1.5px var(--red-bright);
+  outline: none;
+}
+
+/* ---------------------------------------------
+   Column grid
+--------------------------------------------- */
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.footer__col-title {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brown-soft);
+  margin-bottom: 1.1rem;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer__links a {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--white-dim);
+  text-decoration: none;
+  width: fit-content;
+  transition: color 0.2s ease;
+}
+
+.footer__links a:hover,
+.footer__links a:focus-visible {
+  color: var(--red-bright);
+  outline: none;
+}
+
+.footer__socials {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer__socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--white-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__socials a:hover,
+.footer__socials a:focus-visible {
+  color: var(--red-bright);
+  outline: none;
+}
+
+.footer__social-img {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+}
+
+/* Text label is visible in the desktop stacked list; on the compact
+   mobile icon row it's visually hidden but stays for screen readers. */
+.footer__social-label {
+  white-space: nowrap;
+}
+
+.footer__social-fallback {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--white-dim);
+}
+
+.footer__location {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--white-dim);
+  margin: 0 0 0.7rem;
+}
+
+.footer__available {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--white-dim);
+  margin: 0;
+}
+
+.footer__pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6fbf73;
+  box-shadow: 0 0 0 3px rgba(111, 191, 115, 0.18);
+  flex-shrink: 0;
+  animation: footer-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes footer-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__pulse {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------
+   Bottom bar
+--------------------------------------------- */
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.footer__copyright {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--brown-soft);
+  margin: 0;
+}
+
+.footer__top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.footer__top-btn span {
+  transition: transform 0.25s ease;
+}
+
+.footer__top-btn:hover,
+.footer__top-btn:focus-visible {
+  border-color: var(--red-bright);
+  color: var(--red-bright);
+  outline: none;
+}
+
+.footer__top-btn:hover span {
+  transform: translateY(-2px);
+}
+
+/* ---------------------------------------------
+   Responsive
+--------------------------------------------- */
+@media (max-width: 720px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 2rem;
+  }
+  .footer__wordmark {
+    -webkit-text-stroke: 1px var(--red-bright);
+      color: var(--red-bright);
+
+    
+  }
+}
+
+@media (max-width: 560px) {
+  .footer__top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer__wordmark {
+    -webkit-text-stroke: 1px var(--red-bright);
+      color: var(--red-bright);
+
+    
+  }
+
+
+
+
+  /* Compact layout: Sitemap + Based-in share a row (both are short),
+     Elsewhere becomes a single horizontal icon row spanning full width,
+     so the footer stops reading as three long stacked lists. */
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'sitemap location'
+      'socials socials';
+    row-gap: 1.75rem;
+    column-gap: 1.5rem;
+  }
+
+  .footer__col--sitemap {
+    grid-area: sitemap;
+  }
+
+  .footer__col--location {
+    grid-area: location;
+  }
+
+  .footer__col--socials {
+    grid-area: socials;
+  }
+
+  .footer__links {
+    gap: 0.5rem;
+  }
+
+  .footer__links a {
+    font-size: 0.95rem;
+  }
+
+  /* Icon row instead of a tall stacked list */
+  .footer__socials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .footer__socials a {
+    width: 2.6rem;
+    height: 2.6rem;
+    justify-content: center;
+    border: 1px solid var(--line);
+    background: var(--black-soft);
+  }
+
+  .footer__social-img,
+  .footer__social-fallback {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .footer__social-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 380px) {
+  /* Very narrow: even Sitemap/Based-in gets tight, drop back to a single column */
+  .footer__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'sitemap'
+      'location'
+      'socials';
+  }
+}
+.footer__bottom-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer__admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brown-soft);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  padding: 0.55rem 0.75rem;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.footer__admin-link:hover,
+.footer__admin-link:focus-visible {
+  border-color: var(--red-bright);
+  color: var(--red-bright);
+  outline: none;
+}
+
+.footer__admin-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* Icon-only once space gets tight, same collapse pattern as the
+   social icon row's visually-hidden label. */
+@media (max-width: 480px) {
+  .footer__admin-link span:not(.footer__admin-icon) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .footer__admin-link {
+    padding: 0.55rem;
+  }
+}

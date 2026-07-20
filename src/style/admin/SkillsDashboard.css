@@ -1,0 +1,563 @@
+/* ---------------------------------------------------------------
+   Section header row
+   --------------------------------------------------------------- */
+.skills-groups__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 16px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* Pinned state — applied via JS (see SkillsDashboard.jsx) once the
+   sentinel above the toolbar scrolls past the top of the viewport.
+   `left`/`width` are set inline by JS so the fixed bar still lines up
+   with the content column. Same top offset on every screen size, per
+   request — no breakpoint-specific adjustments here. */
+.skills-groups__head.is-pinned {
+  position: fixed;
+  top: 12px;
+  z-index: 50;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.skills-groups__head .card__title {
+  margin: 0;
+}
+
+.skills-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------
+   Groups laid out as a responsive board, not a stacked list
+   --------------------------------------------------------------- */
+.skills-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.group-card {
+  min-width: 0;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--surface) 60%, #180b0c 140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.group-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 80%);
+}
+
+.group-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-card__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  flex-shrink: 0;
+}
+
+.group-card__title-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.group-card__title-input:focus {
+  border-bottom-color: var(--accent);
+}
+
+.group-card__count {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.group-card__remove {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.group-card__remove:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.group-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.group-card__note-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-soft);
+  outline: none;
+}
+
+.group-card__note-input:focus {
+  border-color: var(--accent);
+}
+
+.group-card__order {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.group-card__order label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.group-card__order input {
+  width: 52px;
+  box-sizing: border-box;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 8px;
+  color: var(--ink);
+  font-size: 12.5px;
+  outline: none;
+}
+
+.group-card__order input:focus {
+  border-color: var(--accent);
+}
+
+.group-card__add-skill {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--ink-soft);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.group-card__add-skill:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ---------------------------------------------------------------
+   Skills as tiles with a real brand icon, not a plain form row
+   --------------------------------------------------------------- */
+.skills-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.skill-tile {
+  position: relative;
+  min-width: 0;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.skill-tile:hover {
+  transform: translateY(-2px);
+}
+
+.skill-tile:focus-within {
+  border-color: var(--accent);
+}
+
+.skill-tile.is-primary {
+  border-color: rgba(230, 24, 47, 0.4);
+  box-shadow: 0 0 0 1px rgba(230, 24, 47, 0.12);
+}
+
+.skill-tile__remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.skill-tile__remove:hover {
+  color: var(--danger);
+}
+
+.skill-tile__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 16px;
+}
+
+.skill-tile__icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.skill-tile__icon img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.skill-tile__icon--letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  color: #0a0a0a;
+  border-color: transparent;
+}
+
+.skill-tile__name {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+.skill-tile__level-pill {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.skill-tile__level-pill.level-primary {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.skill-tile__more {
+  font-size: 11px;
+}
+
+.skill-tile__more summary {
+  cursor: pointer;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  list-style: none;
+}
+
+.skill-tile__more summary::-webkit-details-marker {
+  display: none;
+}
+
+.skill-tile__more summary::before {
+  content: "▸ ";
+}
+
+.skill-tile__more[open] summary::before {
+  content: "▾ ";
+}
+
+.skill-tile__more summary:hover {
+  color: var(--accent-ink);
+}
+
+.skill-tile__more-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.skill-tile__more-fields .field {
+  min-width: 0;
+}
+
+.skill-tile__more-fields .field label {
+  font-size: 9.5px;
+}
+
+.skill-tile__more-fields .field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.skill-tile__color-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skill-tile__color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.skill-tile__color-input input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .skills-groups-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-tile-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .skill-tile__more-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Delete confirmation modal
+   --------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  padding: 16px;
+  animation: overlay-in 0.15s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--danger);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  position: relative;
+  animation: modal-in 0.18s ease;
+}
+
+.modal__dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 4px var(--danger-soft);
+  margin-bottom: 12px;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.modal__body {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+}
+
+.modal__body strong {
+  color: var(--ink);
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Toast — brief status message after save / add / delete
+   --------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: toast-in 0.2s ease;
+}
+
+.toast__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .skills-groups__head.is-pinned {
+    flex-wrap: wrap;
+  }
+
+  .skills-toolbar {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

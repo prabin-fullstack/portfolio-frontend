@@ -1,0 +1,495 @@
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------------------------------------------------------------
+   Project row (read view) — grid-area based so it can reflow
+   from a single row on desktop down to a fully stacked card on
+   mobile without needing separate markup per breakpoint.
+   --------------------------------------------------------------- */
+.project-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+  grid-template-areas: "thumb main side";
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.project-row:hover {
+  border-color: rgba(230, 24, 47, 0.4);
+  border-left-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.project-row__thumb {
+  grid-area: thumb;
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-sunken);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.project-row__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-row__thumb-fallback {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--ink-faint);
+}
+
+.project-row__main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.project-row__title-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.project-row__order {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--accent-ink);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+}
+
+.project-row__title-line h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin: 0;
+  letter-spacing: -0.01em;
+  min-width: 0;
+}
+
+.project-row__year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+
+.project-row__role {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 4px 0 6px;
+}
+
+.project-row__desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-row__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.project-row__tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+
+.project-row__side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.project-row__links {
+  display: flex;
+  gap: 12px;
+}
+
+.project-row__link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.project-row__link:hover {
+  color: var(--accent-ink);
+}
+
+.project-row__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ---------------------------------------------------------------
+   Inline form (create / edit)
+   --------------------------------------------------------------- */
+.project-form {
+  min-width: 0;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--surface) 60%, #180b0c 140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 80%);
+}
+
+.project-form__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.project-form__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  flex-shrink: 0;
+}
+
+.project-form__title-input {
+  flex: 1;
+  min-width: 160px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.project-form__title-input:focus {
+  border-bottom-color: var(--accent);
+}
+
+.project-form__order {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.project-form__order label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.project-form__order input {
+  width: 56px;
+  box-sizing: border-box;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  color: var(--ink);
+  font-size: 12.5px;
+  outline: none;
+}
+
+.project-form__order input:focus {
+  border-color: var(--accent);
+}
+
+.project-form__more {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+.project-form__more summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  list-style: none;
+}
+
+.project-form__more summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-form__more summary::before {
+  content: "▸ ";
+}
+
+.project-form__more[open] summary::before {
+  content: "▾ ";
+}
+
+.project-form__more summary:hover {
+  color: var(--accent-ink);
+}
+
+.project-form__more-fields {
+  margin-top: 14px;
+}
+
+.project-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------
+   Responsive — row collapses in two stages instead of one jump
+   --------------------------------------------------------------- */
+
+/* Stage 1 (tablet): thumb + title/desc stay side by side, but the
+   links/actions column drops to its own full-width row underneath. */
+@media (max-width: 760px) {
+  .project-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-areas:
+      "thumb main"
+      "side side";
+    row-gap: 12px;
+  }
+
+  .project-row__thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .project-row__side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+}
+
+/* Stage 2 (phone): fully stacked, thumb becomes a banner on top. */
+@media (max-width: 480px) {
+  .project-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "thumb"
+      "main"
+      "side";
+  }
+
+  .project-row__thumb {
+    width: 100%;
+    height: 130px;
+    border-radius: var(--radius-md);
+  }
+
+  .project-row__side {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .project-row__links {
+    justify-content: space-between;
+  }
+
+  .project-row__actions {
+    justify-content: flex-end;
+  }
+
+  .project-form {
+    padding: 16px;
+  }
+
+  .project-form__order {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Delete confirmation modal
+   --------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  padding: 16px;
+  animation: overlay-in 0.15s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--danger);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  position: relative;
+  animation: modal-in 0.18s ease;
+}
+
+.modal__dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 4px var(--danger-soft);
+  margin-bottom: 12px;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.modal__body {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+}
+
+.modal__body strong {
+  color: var(--ink);
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Toast — brief status message after create/update/delete
+   --------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: toast-in 0.2s ease;
+}
+
+.toast__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}

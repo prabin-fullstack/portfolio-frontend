@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ---------------------------------------------
+   Tokens — same palette as HeroSection
+--------------------------------------------- */
+.navbar {
+  --black: #0b0908;
+  --white: #f5f1ea;
+  --white-dim: #c9bfb2;
+  --red-bright: #e6483f;
+  --line: rgba(245, 241, 234, 0.14);
+
+  --font-display: 'Archivo Black', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------
+   Bar
+--------------------------------------------- */
+.navbar__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem clamp(1.25rem, 5vw, 3rem);
+  background: linear-gradient(180deg, rgba(11, 9, 8, 0.55) 0%, rgba(11, 9, 8, 0) 100%);
+  transition: background 0.35s ease, border-color 0.35s ease, padding 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+
+.navbar.is-scrolled .navbar__bar {
+  padding-block: 0.9rem;
+  background: rgba(11, 9, 8, 0.9);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------------------------------------------
+   Brand
+--------------------------------------------- */
+.navbar__brand {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  text-decoration: none;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+/* ---------------------------------------------
+   Desktop links
+--------------------------------------------- */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.navbar__link {
+  position: relative;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  text-decoration: none;
+  padding-bottom: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--red-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.navbar__link:hover {
+  color: var(--white);
+}
+
+.navbar__link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Active (scroll-spy) state — same treatment as hover, but it sticks
+   as long as that section is the one in view. Hovering a *different*
+   link still shows its own underline on top of this without conflict,
+   since each link's ::after belongs to itself. */
+.navbar__link.is-active {
+  color: var(--red-bright);
+}
+
+.navbar__link.is-active::after {
+  transform: scaleX(1);
+}
+
+.navbar__link--cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--white);
+  border: 1px solid var(--red-bright);
+  padding: 0.5rem 0.9rem 0.5rem 1rem;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar__link--cta::after {
+  /* button has its own border, so drop the shared underline effect */
+  content: none;
+}
+
+.navbar__link--cta:hover {
+  background: var(--red-bright);
+  color: var(--black);
+}
+
+.navbar__cta-icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.navbar__link--cta:hover .navbar__cta-icon {
+  transform: translateY(2px);
+}
+
+.navbar__link:focus-visible,
+.navbar__brand:focus-visible,
+.navbar__toggle:focus-visible {
+  outline: 2px solid var(--red-bright);
+  outline-offset: 3px;
+}
+
+/* hamburger — hidden on desktop */
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+.navbar__toggle-bar {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--white);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-open .navbar__toggle-bar:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.menu-open .navbar__toggle-bar:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* ---------------------------------------------
+   Mobile full-screen menu
+--------------------------------------------- */
+.navbar__mobile {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: clamp(2rem, 8vw, 4rem);
+  background: var(--black);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+.menu-open .navbar__mobile {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar__mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.navbar__mobile-link {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 8vw, 2.2rem);
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease, color 0.2s ease;
+  transition-delay: var(--d, 0ms);
+}
+
+.menu-open .navbar__mobile-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar__mobile-link:hover {
+  color: var(--red-bright);
+}
+
+/* Active (scroll-spy) state in the mobile full-screen list */
+.navbar__mobile-link.is-active {
+  color: var(--red-bright);
+}
+
+.navbar__mobile-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  border: 1px solid var(--red-bright);
+  padding: 0.7rem 1.1rem 0.7rem 1.2rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s, background 0.2s ease,
+    color 0.2s ease;
+}
+
+.menu-open .navbar__mobile-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar__mobile-cta:hover {
+  background: var(--red-bright);
+  color: var(--black);
+}
+
+.navbar__mobile-cta:hover .navbar__cta-icon {
+  transform: translateY(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__bar,
+  .navbar__mobile,
+  .navbar__mobile-link,
+  .navbar__mobile-cta,
+  .navbar__toggle-bar {
+    transition: none;
+  }
+}
+
+
+
+/* ---------------------------------------------
+   Responsive
+--------------------------------------------- */
+@media (max-width: 768px) {
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__toggle {
+    display: flex;
+  }
+}
+
+html {
+    scroll-behavior: smooth;
+}

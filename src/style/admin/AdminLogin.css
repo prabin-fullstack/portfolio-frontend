@@ -1,0 +1,354 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ---------------------------------------------------------------
+   Scoped tokens — duplicated from Dashboard.css rather than relying
+   on its :root, since this screen can render standalone (before
+   login, before the rest of the admin bundle is even reachable).
+   --------------------------------------------------------------- */
+.admin-login {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-sunken: #1b1b1b;
+  --ink: #f2f0ee;
+  --ink-soft: #9a9a9a;
+  --ink-faint: #616161;
+  --accent: #e6182f;
+  --accent-ink: #ff3b52;
+  --accent-soft: rgba(230, 24, 47, 0.14);
+  --danger: #ff4d4d;
+  --danger-soft: rgba(255, 77, 77, 0.12);
+  --border: #262626;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: 24px;
+  overflow: hidden;
+}
+
+/* Faint structural grid in the background — echoes the dashboard's
+   terminal register without competing with the card. */
+.admin-login__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 42px 42px;
+  opacity: 0.18;
+  mask-image: radial-gradient(circle at 50% 40%, black 0%, transparent 72%);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------
+   Card
+   --------------------------------------------------------------- */
+.admin-login__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 34px 30px 26px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.admin-login__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(90deg, var(--accent), transparent 75%);
+}
+
+.admin-login__mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+
+.admin-login__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  padding-left: 10px;
+  border-left: 2px solid var(--accent);
+  margin-bottom: 10px;
+}
+
+.admin-login__title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.admin-login__desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0 0 26px;
+}
+
+/* ---------------------------------------------------------------
+   Form
+   --------------------------------------------------------------- */
+.admin-login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-login__field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-login__field input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.admin-login__field input:focus {
+  border-color: var(--accent);
+}
+
+.admin-login__field input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.admin-login__password-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-login__password-row input {
+  padding-right: 58px;
+}
+
+.admin-login__toggle-visibility {
+  position: absolute;
+  right: 6px;
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 6px 8px;
+  transition: color 0.15s ease;
+}
+
+.admin-login__toggle-visibility:hover {
+  color: var(--accent-ink);
+}
+
+.admin-login__error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 0;
+  font-size: 12.5px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+}
+
+.admin-login__error-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--danger);
+  flex-shrink: 0;
+}
+
+.admin-login__submit {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+  margin-top: 4px;
+}
+
+.admin-login__submit:hover:not(:disabled) {
+  background: var(--accent-ink);
+}
+
+.admin-login__submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.admin-login__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------
+   Terminal log line — same blinking-cursor language as the
+   dashboard's status chip, so this screen reads as part of the
+   same system rather than a bolted-on auth page.
+   --------------------------------------------------------------- */
+.admin-login__log {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+.admin-login__log-cursor {
+  width: 7px;
+  height: 12px;
+  background: var(--ink-faint);
+  flex-shrink: 0;
+  animation: admin-login-blink 0.9s steps(1) infinite;
+}
+
+@keyframes admin-login-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-login__log-cursor {
+    animation: none;
+  }
+}
+.admin-login__back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.admin-login__back:hover {
+  color: var(--accent-ink);
+}
+
+.admin-login__back:hover .admin-login__back-arrow {
+  transform: translateX(-2px);
+}
+
+.admin-login__back-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+@media (max-width: 480px) {
+  .admin-login__back {
+    top: 16px;
+    left: 16px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-login__back {
+    top: 12px;
+    left: 12px;
+  }
+}
+/* ---------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .admin-login__card {
+    padding: 28px 22px 22px;
+  }
+
+  .admin-login__title {
+    font-size: 23px;
+  }
+
+  .admin-login__grid {
+    background-size: 32px 32px;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-login {
+    padding: 16px;
+  }
+
+  .admin-login__card {
+    padding: 24px 18px 18px;
+  }
+}

@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.about {
+  --black: #0b0908;
+  --black-soft: #171210;
+  --white: #f5f1ea;
+  --white-dim: #c9bfb2;
+  --red: #c1272d;
+  --red-bright: #e6483f;
+  --brown: #6b4226;
+  --brown-soft: #8b5e3c;
+  --line: rgba(245, 241, 234, 0.14);
+
+  --font-display: 'Archivo Black', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  position: relative;
+  background: var(--black);
+  font-family: var(--font-serif);
+  padding: clamp(4rem, 9vw, 6.5rem) clamp(1.5rem, 6vw, 5rem);
+}
+
+/* ---------------------------------------------
+   Reveal-on-scroll
+--------------------------------------------- */
+.about__reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  transition-delay: var(--d, 0ms);
+}
+
+.about.is-in .about__reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------
+   Shell: sticky identity rail + main content
+--------------------------------------------- */
+.about__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.62fr) minmax(0, 1fr);
+  column-gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* ---------------------------------------------
+   Left: sticky rail
+--------------------------------------------- */
+.about__rail {
+  position: sticky;
+  top: clamp(1.5rem, 6vh, 3rem);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.25rem;
+}
+
+.about__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--brown-soft);
+  margin: 0 0 1.4rem;
+  text-transform: uppercase;
+}
+
+.about__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red-bright);
+  box-shadow: 0 0 0 3px rgba(230, 72, 63, 0.18);
+  flex-shrink: 0;
+}
+
+.about__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  line-height: 1.02;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0;
+  /* stack the heading vertically like a spine label */
+  writing-mode: horizontal-tb;
+}
+
+.about__rail-mark {
+  margin-top: 2.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--white-dim);
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------
+   Right: content column
+--------------------------------------------- */
+.about__content {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(2rem, 4vw, 3.25rem);
+}
+
+/* Two-column magazine copy on wide screens */
+.about__copy {
+  column-count: 2;
+  column-gap: clamp(1.75rem, 3vw, 2.75rem);
+  column-rule: 1px solid var(--line);
+}
+
+.about__bio {
+  font-size: clamp(1rem, 1.35vw, 1.08rem);
+  line-height: 1.75;
+  color: var(--white-dim);
+  margin: 0 0 1.1rem;
+  break-inside: avoid;
+}
+
+.about__bio--lead::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.1em;
+  line-height: 0.8;
+  float: left;
+  padding: 0.05em 0.1em 0 0;
+  color: var(--red-bright);
+}
+
+.about__bio:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------
+   Stat strip: horizontal, ledger-style
+--------------------------------------------- */
+.about__stats {
+  display: flex;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(1.4rem, 3vw, 2rem);
+}
+
+.about__stat {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-right: clamp(1.25rem, 3vw, 2rem);
+  margin-right: clamp(1.25rem, 3vw, 2rem);
+  border-right: 1px solid var(--line);
+  transition: transform 0.25s ease;
+}
+
+.about__stat:hover {
+  transform: translateY(-3px);
+}
+
+.about__stat--last {
+  padding-right: 0;
+  margin-right: 0;
+  border-right: none;
+}
+
+.about__stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1;
+  color: var(--red-bright);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.about__stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+/* ---------------------------------------------
+   Responsive
+--------------------------------------------- */
+@media (max-width: 860px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    row-gap: 2.25rem;
+  }
+
+  .about__rail {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .about__rail-mark {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .about__content {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 2rem;
+  }
+
+  .about__copy {
+    column-count: 1;
+    column-rule: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .about__stats {
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .about__stat {
+    padding-right: 0;
+    margin-right: 0;
+    border-right: none;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about__stat--last {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding-block: clamp(3rem, 12vw, 4rem);
+  }
+
+  .about__rail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
