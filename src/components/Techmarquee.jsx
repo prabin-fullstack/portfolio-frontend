@@ -1,4 +1,4 @@
-import '../style/TechMarquee.css'
+import '../style/Techmarquee.css'
 
 
 
