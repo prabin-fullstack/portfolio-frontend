@@ -1,0 +1,59 @@
+/* ---------------------------------------------
+   Shared loading-skeleton primitive.
+
+   Deliberately has no color tokens of its own — it reads
+   --black-soft, --line and --red-bright from whichever section
+   it's rendered inside (.hero, .about, .skills, .projects all
+   already define these), so it always matches that section's
+   palette automatically and never drifts out of sync.
+--------------------------------------------- */
+
+.skel {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--black-soft, #171210);
+  border: 1px solid var(--line, rgba(245, 241, 234, 0.14));
+  border-radius: 2px;
+}
+
+.skel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(245, 241, 234, 0.05) 35%,
+    rgba(230, 72, 63, 0.16) 50%,
+    rgba(245, 241, 234, 0.05) 65%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: skel-shimmer 1.7s ease-in-out infinite;
+}
+
+.skel--pill {
+  border-radius: 999px;
+}
+
+.skel--circle {
+  border-radius: 50%;
+}
+
+.skel--tile {
+  border-radius: 0;
+}
+
+@keyframes skel-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skel::after {
+    animation: none;
+    display: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "../style/Skills.css";
+import "../style/Skeleton.css";
 import api from "../api";
 
 function useReveal() {
@@ -113,12 +114,8 @@ function SkillGroup({ group, groupIndex, baseDelay }) {
 export default function SkillsSection() {
   const [sectionRef, visible] = useReveal();
 
-  const [section, setSection] = useState({
-    eyebrow: "",
-    heading: "",
-    intro: "",
-    groups: [],
-  });
+  const [section, setSection] = useState(null);
+  const loading = section === null;
 
   useEffect(() => {
     const getSection = async () => {
@@ -127,6 +124,7 @@ export default function SkillsSection() {
         setSection(response.data);
       } catch (error) {
         console.log(error);
+        setSection({ eyebrow: "", heading: "", intro: "", groups: [] });
       }
     };
     getSection();
@@ -139,38 +137,68 @@ export default function SkillsSection() {
       id="skills"
     >
       <div className="skills__inner">
-        <header className="skills__header">
-          <p
-            className="skills__eyebrow skills__reveal"
-            style={{ "--d": "0ms" }}
-          >
-            <span className="skills__dot" aria-hidden="true" />
-            {section?.eyebrow}
-          </p>
-          <h2
-            className="skills__heading skills__reveal"
-            style={{ "--d": "80ms" }}
-          >
-            {section?.heading}
-          </h2>
-          <p
-            className="skills__intro skills__reveal"
-            style={{ "--d": "150ms" }}
-          >
-            {section?.intro}
-          </p>
-        </header>
+        {loading ? (
+          <div aria-hidden="true" aria-label="Loading">
+            <div style={{ maxWidth: "62ch", marginBottom: "3rem" }}>
+              <span className="skel skel--pill" style={{ width: "130px", height: "0.8rem", marginBottom: "1.1rem" }} />
+              <span className="skel" style={{ width: "70%", height: "2.6rem", marginBottom: "1.1rem" }} />
+              <span className="skel" style={{ width: "90%", height: "0.95rem" }} />
+            </div>
 
-        <div className="skills__groups">
-          {section.groups?.map((group, i) => (
-            <SkillGroup
-              key={group.id}
-              group={group}
-              groupIndex={i}
-              baseDelay={220 + i * 140}
-            />
-          ))}
-        </div>
+            {[0, 1].map((g) => (
+              <div key={g} style={{ marginBottom: "2.75rem" }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "1.1rem", marginBottom: "1.4rem" }}>
+                  <span className="skel" style={{ width: "22px", height: "0.85rem" }} />
+                  <span className="skel" style={{ width: "180px", height: "1.3rem" }} />
+                </div>
+                <div className="skills__grid">
+                  {Array.from({ length: 6 }).map((_, t) => (
+                    <span
+                      key={t}
+                      className="skel skel--tile"
+                      style={{ height: "3.6rem" }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            <header className="skills__header">
+              <p
+                className="skills__eyebrow skills__reveal"
+                style={{ "--d": "0ms" }}
+              >
+                <span className="skills__dot" aria-hidden="true" />
+                {section?.eyebrow}
+              </p>
+              <h2
+                className="skills__heading skills__reveal"
+                style={{ "--d": "80ms" }}
+              >
+                {section?.heading}
+              </h2>
+              <p
+                className="skills__intro skills__reveal"
+                style={{ "--d": "150ms" }}
+              >
+                {section?.intro}
+              </p>
+            </header>
+
+            <div className="skills__groups">
+              {section.groups?.map((group, i) => (
+                <SkillGroup
+                  key={group.id}
+                  group={group}
+                  groupIndex={i}
+                  baseDelay={220 + i * 140}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import '../style/Work.css';
+import '../style/Skeleton.css';
 import api from '../api'
 
 
@@ -201,22 +202,19 @@ export default function Work() {
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const listRef = useRef(null);
   const innerRef = useRef(null);
-  const [ProjectSection, setProjectSection] = useState({ 
-    eyebrow: "",
-    heading: "",
-    intro: "",
-    projects: [],
-  })
+  const [ProjectSection, setProjectSection] = useState(null)
+  const loading = ProjectSection === null;
 
   useEffect(()=>{
     const getProjects = async() =>{
       try{
         const response = await api.get('project-section/')
         setProjectSection(response.data)
-        
+
 
       }catch(error){
         console.log(error)
+        setProjectSection({ eyebrow: "", heading: "", intro: "", projects: [] })
       }
     }
     getProjects()
@@ -240,53 +238,93 @@ export default function Work() {
   return (
     <section className={`projects ${visible ? 'is-in' : ''}`} ref={sectionRef} id="projects">
       <div className="projects__inner" ref={innerRef}>
-        <header className="projects__header">
-          <p className="projects__eyebrow projects__reveal" style={{ '--d': '0ms' }}>
-            <span className="projects__dot" aria-hidden="true" />
-            {ProjectSection.eyebrow}
-          </p>
-          <h2 className="projects__heading projects__reveal" style={{ '--d': '80ms' }}>
-            {ProjectSection.heading}
-          </h2>
-          <p className="projects__intro projects__reveal" style={{ '--d': '150ms' }}>
-            {ProjectSection.intro}
-          </p>
-        </header>
-
-        <ul
-          className="projects__list"
-          ref={listRef}
-          onMouseMove={handleMove}
-          style={{ '--count': ProjectSection.length }}
-        >
-          {ProjectSection.projects?.map((project, i) => (
-            <div
-              className="projects__reveal"
-              style={{ '--d': `${220 + i * 90}ms` }}
-              key={project.title}
-            >
-              <ProjectRow
-                project={project}
-                index={i}
-                onEnter={setHoverIndex}
-                onLeave={() => setHoverIndex(null)}
-                onMove={handleMove}
-                onOpen={openModal}
-              />
+        {loading ? (
+          <div aria-hidden="true" aria-label="Loading">
+            <div style={{ maxWidth: '62ch', marginBottom: '3rem' }}>
+              <span className="skel skel--pill" style={{ width: '120px', height: '0.8rem', marginBottom: '1.1rem' }} />
+              <span className="skel" style={{ width: '65%', height: '2.6rem', marginBottom: '1.1rem' }} />
+              <span className="skel" style={{ width: '85%', height: '0.95rem' }} />
             </div>
-          ))}
-        </ul>
 
-        {/* Cursor-following preview panel — desktop only, hidden via CSS on touch/narrow */}
-        <div
-          className={`projects__preview ${hoverProject ? 'is-active' : ''}`}
-          style={{
-            transform: `translate(${pointer.x}px, ${pointer.y}px) translate(-50%, -60%)`,
-          }}
-          aria-hidden="true"
-        >
-          {hoverProject && <img src={hoverProject.image} alt="" />}
-        </div>
+            <div style={{ borderTop: '1px solid var(--line)' }}>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '3rem minmax(0, 1fr) 6rem auto 2.5rem',
+                    alignItems: 'center',
+                    gap: 'clamp(1rem, 2.5vw, 2rem)',
+                    padding: 'clamp(1.3rem, 2.6vw, 1.9rem) 0.25rem',
+                    borderBottom: '1px solid var(--line)',
+                  }}
+                >
+                  <span className="skel" style={{ width: '1.6rem', height: '0.85rem' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    <span className="skel" style={{ width: '55%', height: '1.9rem' }} />
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <span className="skel skel--pill" style={{ width: '60px', height: '1.3rem' }} />
+                      <span className="skel skel--pill" style={{ width: '70px', height: '1.3rem' }} />
+                    </div>
+                  </div>
+                  <span className="skel" style={{ width: '5.5rem', height: '3.5rem' }} />
+                  <span className="skel" style={{ width: '4rem', height: '0.9rem' }} />
+                  <span className="skel" style={{ width: '1.3rem', height: '1.3rem' }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            <header className="projects__header">
+              <p className="projects__eyebrow projects__reveal" style={{ '--d': '0ms' }}>
+                <span className="projects__dot" aria-hidden="true" />
+                {ProjectSection.eyebrow}
+              </p>
+              <h2 className="projects__heading projects__reveal" style={{ '--d': '80ms' }}>
+                {ProjectSection.heading}
+              </h2>
+              <p className="projects__intro projects__reveal" style={{ '--d': '150ms' }}>
+                {ProjectSection.intro}
+              </p>
+            </header>
+
+            <ul
+              className="projects__list"
+              ref={listRef}
+              onMouseMove={handleMove}
+              style={{ '--count': ProjectSection.projects?.length }}
+            >
+              {ProjectSection.projects?.map((project, i) => (
+                <div
+                  className="projects__reveal"
+                  style={{ '--d': `${220 + i * 90}ms` }}
+                  key={project.title}
+                >
+                  <ProjectRow
+                    project={project}
+                    index={i}
+                    onEnter={setHoverIndex}
+                    onLeave={() => setHoverIndex(null)}
+                    onMove={handleMove}
+                    onOpen={openModal}
+                  />
+                </div>
+              ))}
+            </ul>
+
+            {/* Cursor-following preview panel — desktop only, hidden via CSS on touch/narrow */}
+            <div
+              className={`projects__preview ${hoverProject ? 'is-active' : ''}`}
+              style={{
+                transform: `translate(${pointer.x}px, ${pointer.y}px) translate(-50%, -60%)`,
+              }}
+              aria-hidden="true"
+            >
+              {hoverProject && <img src={hoverProject.image} alt="" />}
+            </div>
+          </>
+        )}
       </div>
 
       {modalProject && <ProjectModal project={modalProject} onClose={closeModal} />}

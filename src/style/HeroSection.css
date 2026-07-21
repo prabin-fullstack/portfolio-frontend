@@ -75,6 +75,13 @@
     linear-gradient(160deg, var(--black-soft), var(--black));
 }
 
+.hero__photo-skel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .hero__image-overlay {
   position: absolute;
   inset: 0;
